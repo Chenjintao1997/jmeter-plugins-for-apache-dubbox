@@ -12,7 +12,7 @@
 
 # Introduce
 
-DubbOX Plugin for Apache JMeter, Its main purpose is to perform stress testing on the DubboX interface visually in Jmeter. It is easy to use.
+DubbX Plugin for Apache JMeter, Its main purpose is to perform stress testing on the DubboX interface visually in Jmeter. It is easy to use.
 
 # Plugin Version Support
 

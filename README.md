@@ -2,7 +2,7 @@
 
 # NOTE
 
-此工程是从thubbo的[jmeter-plugins-for-apache-dubbo](https://github.com/thubbo/jmeter-plugins-for-apache-dubbo)处fork过来的，在其基础上做了修改已支持DubboX的接口调用，主要解决了在使用jmeter调用dubbox的RPC服务时无法调用成功的痛点；
+此工程是从thubbo的[jmeter-plugins-for-apache-dubbo](https://github.com/thubbo/jmeter-plugins-for-apache-dubbo)处fork过来的，在其基础上做了修改以支持DubboX的接口调用，主要解决了在使用jmeter调用dubbox的RPC服务时无法调用成功的痛点；
 此工程去除了源项目对于配置中心Config Center的支持，因为dubbox(com.alibaba.dubbo2.8.4)不支持配置中心的功能；
 
 如果要使用dubbo(非dubbox或com.alibaba.dubbo2.8.4版本)的插件，还请访问源项目:[jmeter-plugins-for-apache-dubbo](https://github.com/thubbo/jmeter-plugins-for-apache-dubbo)，使用源项目的插件；

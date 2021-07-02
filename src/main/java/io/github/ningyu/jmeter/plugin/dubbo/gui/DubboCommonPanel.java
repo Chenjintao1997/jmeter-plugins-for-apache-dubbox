@@ -16,11 +16,11 @@
  */
 package io.github.ningyu.jmeter.plugin.dubbo.gui;
 
+import com.alibaba.dubbo.common.URL;
 import io.github.ningyu.jmeter.plugin.dubbo.sample.MethodArgument;
 import io.github.ningyu.jmeter.plugin.dubbo.sample.ProviderService;
 import io.github.ningyu.jmeter.plugin.util.Constants;
 import io.github.ningyu.jmeter.plugin.util.StringUtils;
-import org.apache.dubbo.common.URL;
 import org.apache.jmeter.gui.util.HorizontalPanel;
 import org.apache.jmeter.gui.util.VerticalPanel;
 import org.apache.jmeter.testelement.TestElement;

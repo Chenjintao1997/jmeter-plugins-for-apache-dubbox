@@ -1,15 +1,16 @@
 package io.github.ningyu.jmeter.plugin.test;
 
+import com.alibaba.dubbo.config.ApplicationConfig;
+import com.alibaba.dubbo.config.ReferenceConfig;
+import com.alibaba.dubbo.config.RegistryConfig;
+import com.alibaba.dubbo.rpc.RpcContext;
+import com.alibaba.dubbo.rpc.service.GenericService;
 import io.github.ningyu.jmeter.plugin.dubbo.sample.MethodArgument;
 import io.github.ningyu.jmeter.plugin.util.ClassUtils;
 import io.github.ningyu.jmeter.plugin.util.Constants;
 import io.github.ningyu.jmeter.plugin.util.JsonUtils;
-import org.apache.dubbo.config.ApplicationConfig;
+
 import org.apache.dubbo.config.ConfigCenterConfig;
-import org.apache.dubbo.config.ReferenceConfig;
-import org.apache.dubbo.config.RegistryConfig;
-import org.apache.dubbo.rpc.RpcContext;
-import org.apache.dubbo.rpc.service.GenericService;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -70,7 +71,7 @@ public class GenericServiceTest {
             cc.setTimeout(Long.valueOf("10000"));
             cc.setGroup("");
             cc.setNamespace("");
-            reference.setConfigCenter(cc);
+//            reference.setConfigCenter(cc);
             reference.setTimeout(2000);
             reference.setGeneric(true);
             reference.setApplication(application);

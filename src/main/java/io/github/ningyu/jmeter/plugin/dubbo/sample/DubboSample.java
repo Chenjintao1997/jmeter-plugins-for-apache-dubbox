@@ -16,19 +16,18 @@
  */
 package io.github.ningyu.jmeter.plugin.dubbo.sample;
 
+import com.alibaba.dubbo.common.utils.StringUtils;
+import com.alibaba.dubbo.config.ApplicationConfig;
+import com.alibaba.dubbo.config.ReferenceConfig;
+import com.alibaba.dubbo.config.RegistryConfig;
+import com.alibaba.dubbo.config.utils.ReferenceConfigCache;
+import com.alibaba.dubbo.rpc.RpcContext;
+import com.alibaba.dubbo.rpc.RpcException;
+import com.alibaba.dubbo.rpc.service.GenericService;
 import io.github.ningyu.jmeter.plugin.util.ClassUtils;
 import io.github.ningyu.jmeter.plugin.util.Constants;
 import io.github.ningyu.jmeter.plugin.util.ErrorCode;
 import io.github.ningyu.jmeter.plugin.util.JsonUtils;
-import org.apache.dubbo.common.utils.StringUtils;
-import org.apache.dubbo.config.ApplicationConfig;
-import org.apache.dubbo.config.ConfigCenterConfig;
-import org.apache.dubbo.config.ReferenceConfig;
-import org.apache.dubbo.config.RegistryConfig;
-import org.apache.dubbo.config.utils.ReferenceConfigCache;
-import org.apache.dubbo.rpc.RpcContext;
-import org.apache.dubbo.rpc.RpcException;
-import org.apache.dubbo.rpc.service.GenericService;
 import org.apache.jmeter.samplers.AbstractSampler;
 import org.apache.jmeter.samplers.Entry;
 import org.apache.jmeter.samplers.Interruptible;
@@ -54,9 +53,8 @@ public class DubboSample extends AbstractSampler implements Interruptible {
     public static ApplicationConfig application = new ApplicationConfig("DubboSample");
 
 
-
     @SuppressWarnings("deprecation")
-	@Override
+    @Override
     public SampleResult sample(Entry entry) {
         SampleResult res = new SampleResult();
         res.setSampleLabel(getName());
@@ -73,8 +71,8 @@ public class DubboSample extends AbstractSampler implements Interruptible {
      * Construct request data
      */
     private String getSampleData() {
-        log.info("sample中的实例id"+this.toString()+",element名称"+this.getName());
-    	StringBuilder sb = new StringBuilder();
+        log.info("sample中的实例id" + this.toString() + ",element名称" + this.getName());
+        StringBuilder sb = new StringBuilder();
         sb.append("Registry Protocol: ").append(Constants.getRegistryProtocol(this)).append("\n");
         sb.append("Address: ").append(Constants.getAddress(this)).append("\n");
         sb.append("RPC Protocol: ").append(Constants.getRpcProtocol(this)).append("\n");
@@ -127,7 +125,7 @@ public class DubboSample extends AbstractSampler implements Interruptible {
                     .append("/").append(Constants.getInterface(this));
             log.debug("rpc invoker url : " + sb.toString());
             reference.setUrl(sb.toString());
-        } else if(Constants.REGISTRY_SIMPLE.equals(protocol)){
+        } else if (Constants.REGISTRY_SIMPLE.equals(protocol)) {
             registry = new RegistryConfig();
             registry.setAddress(address);
             reference.setProtocol(rpcProtocol);
@@ -144,50 +142,50 @@ public class DubboSample extends AbstractSampler implements Interruptible {
             reference.setRegistry(registry);
         }
         /** config center */
+//        try {
+//            String configCenterProtocol = Constants.getConfigCenterProtocol(this);
+//            if (!StringUtils.isBlank(configCenterProtocol)) {
+//                String configCenterGroup = Constants.getConfigCenterGroup(this);
+//                String configCenterNamespace = Constants.getConfigCenterNamespace(this);
+//                String configCenterAddress = Constants.getConfigCenterAddress(this);
+//                if (StringUtils.isBlank(configCenterAddress)) {
+//                    setResponseError(res, ErrorCode.MISS_ADDRESS);
+//                    return ErrorCode.MISS_ADDRESS.getMessage();
+//                }
+//                Long configCenterTimeout = null;
+//                try {
+//                    if (!StringUtils.isBlank(Constants.getConfigCenterTimeout(this))) {
+//                        configCenterTimeout = Long.valueOf(Constants.getConfigCenterTimeout(this));
+//                    }
+//                } catch (NumberFormatException e) {
+//                    setResponseError(res, ErrorCode.TIMEOUT_ERROR);
+//                    return ErrorCode.TIMEOUT_ERROR.getMessage();
+//                }
+//                ConfigCenterConfig configCenter = new ConfigCenterConfig();
+//                configCenter.setProtocol(configCenterProtocol);
+//                configCenter.setGroup(configCenterGroup);
+//                configCenter.setNamespace(configCenterNamespace);
+//                configCenter.setAddress(configCenterAddress);
+//                if (configCenterTimeout != null) {
+//                    configCenter.setTimeout(configCenterTimeout);
+//                }
+//                reference.setConfigCenter(configCenter);
+//            }
+//        } catch (IllegalStateException e) {
+//            /** Duplicate Config */
+//            setResponseError(res, ErrorCode.DUPLICATE_CONFIGCENTERCONFIG);
+//            return ErrorCode.DUPLICATE_CONFIGCENTERCONFIG.getMessage();
+//        }
         try {
-            String configCenterProtocol = Constants.getConfigCenterProtocol(this);
-            if (!StringUtils.isBlank(configCenterProtocol)) {
-                String configCenterGroup = Constants.getConfigCenterGroup(this);
-                String configCenterNamespace = Constants.getConfigCenterNamespace(this);
-                String configCenterAddress = Constants.getConfigCenterAddress(this);
-                if (StringUtils.isBlank(configCenterAddress)) {
-                    setResponseError(res, ErrorCode.MISS_ADDRESS);
-                    return ErrorCode.MISS_ADDRESS.getMessage();
-                }
-                Long configCenterTimeout = null;
-                try {
-                    if (!StringUtils.isBlank(Constants.getConfigCenterTimeout(this))) {
-                        configCenterTimeout = Long.valueOf(Constants.getConfigCenterTimeout(this));
-                    }
-                } catch (NumberFormatException e) {
-                    setResponseError(res, ErrorCode.TIMEOUT_ERROR);
-                    return ErrorCode.TIMEOUT_ERROR.getMessage();
-                }
-                ConfigCenterConfig configCenter = new ConfigCenterConfig();
-                configCenter.setProtocol(configCenterProtocol);
-                configCenter.setGroup(configCenterGroup);
-                configCenter.setNamespace(configCenterNamespace);
-                configCenter.setAddress(configCenterAddress);
-                if (configCenterTimeout != null) {
-                    configCenter.setTimeout(configCenterTimeout);
-                }
-                reference.setConfigCenter(configCenter);
-            }
-        } catch (IllegalStateException e) {
-            /** Duplicate Config */
-            setResponseError(res, ErrorCode.DUPLICATE_CONFIGCENTERCONFIG);
-            return ErrorCode.DUPLICATE_CONFIGCENTERCONFIG.getMessage();
-        }
-        try {
-		    // set interface
-		    String interfaceName = Constants.getInterface(this);
-		    if (StringUtils.isBlank(interfaceName)) {
+            // set interface
+            String interfaceName = Constants.getInterface(this);
+            if (StringUtils.isBlank(interfaceName)) {
                 setResponseError(res, ErrorCode.MISS_INTERFACE);
                 return ErrorCode.MISS_INTERFACE.getMessage();
             }
             reference.setInterface(interfaceName);
 
-		    // set retries
+            // set retries
             Integer retries = null;
             try {
                 if (!StringUtils.isBlank(Constants.getRetries(this))) {
@@ -278,10 +276,12 @@ public class DubboSample extends AbstractSampler implements Interruptible {
             String[] parameterTypes = null;
             Object[] parameterValues = null;
             List<MethodArgument> args = Constants.getMethodArgs(this);
-            List<String> paramterTypeList =  new ArrayList<String>();;
-            List<Object> parameterValuesList = new ArrayList<Object>();;
-            for(MethodArgument arg : args) {
-            	ClassUtils.parseParameter(paramterTypeList, parameterValuesList, arg);
+            List<String> paramterTypeList = new ArrayList<String>();
+            ;
+            List<Object> parameterValuesList = new ArrayList<Object>();
+            ;
+            for (MethodArgument arg : args) {
+                ClassUtils.parseParameter(paramterTypeList, parameterValuesList, arg);
             }
             parameterTypes = paramterTypeList.toArray(new String[paramterTypeList.size()]);
             parameterValues = parameterValuesList.toArray(new Object[parameterValuesList.size()]);
@@ -293,19 +293,19 @@ public class DubboSample extends AbstractSampler implements Interruptible {
 
             res.sampleStart();
             Object result = null;
-			try {
-				result = genericService.$invoke(methodName, parameterTypes, parameterValues);
+            try {
+                result = genericService.$invoke(methodName, parameterTypes, parameterValues);
                 res.setResponseOK();
-			} catch (Exception e) {
-				log.error("Exception：", e);
+            } catch (Exception e) {
+                log.error("Exception：", e);
                 if (e instanceof RpcException) {
                     RpcException rpcException = (RpcException) e;
                     setResponseError(res, String.valueOf(rpcException.getCode()), rpcException.getMessage());
                 } else {
                     setResponseError(res, ErrorCode.UNKNOWN_EXCEPTION);
                 }
-				result = e;
-			}
+                result = e;
+            }
             res.sampleEnd();
             return result;
         } catch (Exception e) {
@@ -313,7 +313,7 @@ public class DubboSample extends AbstractSampler implements Interruptible {
             setResponseError(res, ErrorCode.UNKNOWN_EXCEPTION);
             return e;
         } finally {
-        	//TODO 不能在sample结束时destroy
+            //TODO 不能在sample结束时destroy
 //            if (registry != null) {
 //                registry.destroyAll();
 //            }
@@ -324,6 +324,7 @@ public class DubboSample extends AbstractSampler implements Interruptible {
     public void setResponseError(SampleResult res, ErrorCode errorCode) {
         setResponseError(res, errorCode.getCode(), errorCode.getMessage());
     }
+
     public void setResponseError(SampleResult res, String code, String message) {
         res.setSuccessful(false);
         res.setResponseCode(code);

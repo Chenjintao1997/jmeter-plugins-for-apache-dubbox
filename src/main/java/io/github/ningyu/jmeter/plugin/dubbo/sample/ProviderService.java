@@ -17,12 +17,13 @@
 
 package io.github.ningyu.jmeter.plugin.dubbo.sample;
 
+import com.alibaba.dubbo.common.URL;
+import com.alibaba.dubbo.config.ReferenceConfig;
+import com.alibaba.dubbo.config.RegistryConfig;
+import com.alibaba.dubbo.config.utils.ReferenceConfigCache;
+import com.alibaba.dubbo.registry.RegistryService;
 import io.github.ningyu.jmeter.plugin.util.Constants;
-import org.apache.dubbo.common.URL;
-import org.apache.dubbo.config.ReferenceConfig;
-import org.apache.dubbo.config.RegistryConfig;
-import org.apache.dubbo.config.utils.ReferenceConfigCache;
-import org.apache.dubbo.registry.RegistryService;
+
 import org.apache.jorphan.logging.LoggingManager;
 import org.apache.log.Logger;
 
@@ -100,7 +101,7 @@ public class ProviderService implements Serializable {
                 reference.setRegistry(registry);
                 break;
         }
-        reference.setInterface("org.apache.dubbo.registry.RegistryService");
+        reference.setInterface("com.alibaba.dubbo.registry.RegistryService");
         try {
             ReferenceConfigCache cache = ReferenceConfigCache.getCache(address + "_" + group);
             RegistryService registryService = (RegistryService) cache.get(reference);

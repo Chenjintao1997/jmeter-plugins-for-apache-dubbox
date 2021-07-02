@@ -26,28 +26,28 @@ import javax.swing.*;
 public class DubboDefaultPanel extends DubboCommonPanel {
 
     public void drawPanel(JPanel parent) {
-        parent.add(drawConfigCenterSettingsPanel());
+        //parent.add(drawConfigCenterSettingsPanel());
         parent.add(drawRegistrySettingsPanel());
         parent.add(drawProtocolSettingsPanel());
         parent.add(drawConsumerSettingsPanel());
     }
 
     public void configure(TestElement element) {
-        configureConfigCenter(element);
+        //configureConfigCenter(element);
         configureRegistry(element);
         configureProtocol(element);
         configureConsumer(element);
     }
 
     public void modifyTestElement(TestElement element) {
-        modifyConfigCenter(element);
+        //modifyConfigCenter(element);
         modifyRegistry(element);
         modifyProtocol(element);
         modifyConsumer(element);
     }
 
     public void clearGui() {
-        clearConfigCenter();
+        //clearConfigCenter();
         clearRegistry();
         clearProtocol();
         clearConsumer();
